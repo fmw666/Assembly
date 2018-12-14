@@ -13,10 +13,10 @@
   
 ***汇编实验***
   1. [打印输出"Hello World!"](#shiyan1)
-  1. [双精度数加减法]()
-  1. [四则运算]()
-  1. [串操作]()
-  1. [数组求和]()
+  1. [双精度数加减法](#shiyan2)
+  1. [四则运算](#shiyan3)
+  1. [串操作](#shiyan4)
+  1. [数组求和](#shiyan5)
 
 ***例题讲解***
 
@@ -47,3 +47,311 @@ START:
 CODES  ENDS
 END   START
 ```
+
+[◀返回目录](#目录)
+
+<a name="shiyan2"> </a>
+## 双精度数加减法
+***双精度数加法***
+```asm
+DATAS SEGMENT
+    X DW 1,2         ;给双精度X赋值 
+    Y DW 3,4         ;给双精度Y赋值 
+    Z DW 0,0         ;给双精度Z赋值 
+DATAS ENDS
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    
+    MOV AX,X         ;把X低位放到AX寄存器中
+    MOV DX,X+2       ;把X高位放到DX寄存器中
+    
+    ADD AX,Y         ;把X低位和Y低位相加，存在X中
+    ADC DX,Y+2       ;把X高位和Y高位相加，存在DX中
+    
+    MOV Z,AX         ;把低位相加得到的数放到Z的地位
+    MOV Z+2,DX       ;把高位相加得到的数放到Z的高位
+    
+    MOV DX,Z+2
+    MOV DL,DH
+    ADD DL,'0'          ;输出Z的高位
+    MOV AH,02H        ;调用dos系统的02号功能
+    INT 21H             ;中断
+    MOV DX,Z+2
+    ADD DL,'0'
+    MOV AH,02H
+    INT 21H
+    
+    MOV DX,Z
+    MOV DL,DH
+    ADD DL,'0'          ;输出Z的高位
+    MOV AH,02H        ;调用dos系统的02号功能
+    INT 21H             ;中断
+    MOV DX,Z
+    ADD DL,'0'
+    MOV AH,02H
+    INT 21H
+    ;此处输入代码段代码
+    MOV AH,4CH
+    INT 21H
+CODES ENDS
+    END START
+```
+
+***双精度数减法***
+```asm
+DATAS SEGMENT
+    X DW 4,6                  ;给双精度X赋值 
+    Y DW 2,3                  ;给双精度Y赋值
+    Z DW 0,0                  ;给双精度Z赋值
+DATAS ENDS
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    
+    MOV AX,X         ;把X的低位放在AX寄存器中
+    MOV DX,X+2       ;把X的高位放在DX寄存器中
+    
+    SUB AX,Y          ;把X与Y的低位相减，存在AX中
+    SBB DX,Y+2        ;把X与Y的高位相减，存在DX中
+    MOV Z,AX         ;低位相减得到的值放在Z的地位
+    MOV Z+2,DX       ;高位相减得到的值放在Z的高位
+    
+    MOV DX,Z+2
+    MOV DL,DH
+    ADD DL,'0'          ;输出Z的高位
+    MOV AH,02H       ;调用dos系统2号功能
+    INT 21H            ;中断
+    MOV DX,Z+2
+    ADD DL,'0'
+    MOV AH,02H
+    INT 21H
+    
+    MOV DX,Z
+    MOV DL,DH
+    ADD DL,'0'          ;输出Z的低位
+    MOV AH,02H       ;调用dos系统2号功能
+    INT 21H            ;中断
+    MOV DX,Z
+    ADD DL,'0'
+    MOV AH,02H
+    INT 21H
+    ;此处输入代码段代码
+    MOV AH,4CH
+    INT 21H
+CODES ENDS
+    END START
+```
+
+[◀返回目录](#目录)
+
+<a name="shiyan4"> </a>
+## 串操作
+***串拷贝***
+```asm
+DATAS SEGMENT
+    ;此处输入数据段代码 
+    STR1 DB 'fmw2017110110 $'     ;定义一串字符
+    
+    STR2 DB 20 DUP(?)    ;定义作为拷贝对象
+DATAS ENDS
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,ES:DATAS
+START:
+    MOV AX,DATAS    
+    MOV ES,AX         
+    ;此处输入代码段代码
+    
+    LEA SI,STR1     ;把STR1存在SI中
+    LEA DI,STR2     ;把STR2存在DI中
+    MOV CX,20      
+    CLD            ;使变址寄存器SI或DI的地址指针自动增加
+    REP MOVS ES:BYTE PTR[DI],ES:[SI]   ;表明是操作的是字节
+    
+    LEA DX,STR2   ;把STR2放入到DX中
+    MOV AX,ES        
+    MOV DS,AX     ;把AX里的传到DS
+    MOV AH,9      ;输出字符串
+    INT 21H         
+    
+    MOV AH,4CH
+    INT 21H        
+CODES ENDS
+    END START
+```
+
+***串扫描***
+```asm
+DATAS SEGMENT
+    ;此处输入数据段代码 
+    STR1 DB 'fmw2017110110'       ;定义字符串
+DATAS ENDS
+
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,ES:DATAS
+START:
+    MOV AX,DATAS       
+    MOV ES,AX
+    ;此处输入代码段代码
+    
+    LEA DI,STR1     ;把STR1的有效地址传送到DI中
+    MOV AL,'m'      ;将m的ACSII码送到AL
+    MOV CX,20       ;计数
+    CLD             ;使变址寄存器SI或DI的地址指针自动增加
+    REPNE SCASB     ;串扫描
+    
+    MOV DL,ES:[DI]   ;若相等就停止比较
+    MOV AH,2		 ;输出
+    INT 21H     
+    
+    MOV AH,4CH
+    INT 21H     
+CODES ENDS
+END START
+```
+
+***串比较***
+```asm
+DATAS1 SEGMENT
+    ;此处输入数据段代码 
+    str1 DB 'fanmaowei'    ;定义字符串1
+DATAS1 ENDS
+
+DATAS2 SEGMENT 
+	str2 DB 'fammaowei'     ;定义字符串2
+DATAS2 ENDS
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS1,ES:DATAS2
+START:
+    MOV AX,DATAS1    
+    MOV DS,AX
+    MOV AX,DATAS2
+    MOV ES,AX
+    ;此处输入代码段代码
+    
+    LEA SI,str1    ;把STR1的有效地址传送到SI中
+    LEA DI,str2    ;把STR1的有效地址传送到SI中
+    MOV CX,9       ;计数
+    CLD            ;使变址寄存器SI或DI的地址指针自动增加
+    REPE CMPSB     ;串比较
+    
+    MOV DL,ES:[DI]     ;相等则停止
+    MOV AH,2      
+    INT 21H            ;输出
+    
+    MOV AH,4CH
+    INT 21H        
+CODES ENDS
+    END START
+```
+
+***从串中取元素***
+```asm
+DATAS SEGMENT
+    ;此处输入数据段代码 
+    STR1 DB 'fmw2017110110' ;定义字符串,后面只取前三位'fmw'
+DATAS ENDS
+
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,DS:DATAS
+START:
+    MOV AX,DATAS
+    MOV DS,AX
+    ;此处输入代码段代码
+    
+    LEA SI,STR1     ;把STR1的有效地址传送到SI中
+    CLD             ;使变址寄存器SI或DI的地址指针自动增加
+    LODSB           ;从串取
+    MOV DL,AL
+    MOV AH,2        ;输出
+    INT 21H
+    
+    LODSB           ;从串取
+    MOV DL,AL
+    MOV AH,2        ;输出
+    INT 21H
+    
+    LODSB           ;从串取
+    MOV DL,AL
+    MOV AH,2        ;输出
+    INT 21H
+    
+    MOV AH,4CH
+    INT 21H        
+CODES ENDS
+END START
+```
+
+***将元素存入串***
+```asm
+DATAS SEGMENT
+    ;此处输入数据段代码 
+    STR1 DB 3 dup(?),'$'   ;给定未知内容STR1空间
+DATAS ENDS
+
+STACKS SEGMENT
+    ;此处输入堆栈段代码
+STACKS ENDS
+
+CODES SEGMENT
+    ASSUME CS:CODES,ES:DATAS
+START:
+    MOV AX,DATAS
+    MOV ES,AX
+    ;此处输入代码段代码
+    
+    LEA DI,STR1
+    MOV AL,'f'    ;将f的ACSII码送到AL
+    MOV CX,3      ;与串的大小一致
+    CLD           ;使变址寄存器SI或DI的地址指针自动增加
+    REP STOSB     ;存放入字节当中
+    LEA DX,STR1   ;将STR1放到DX中
+    MOV AX,ES
+    MOV DS,AX     
+    MOV AH,9      ;输出
+    INT 21H       
+    
+    MOV AH,4CH     
+    INT 21H        
+CODES ENDS
+END START
+```
+
+[◀返回目录](#目录)
+
+<a name="shiyan5"> </a>
+## 数组求和
