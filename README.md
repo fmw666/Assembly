@@ -189,10 +189,12 @@ MOV AX,1234H[BX+DI]
 MOV AX,1234H[DI][BX]
 ```
 
+---
+
 &ensp;&ensp;&ensp;&ensp;除了这7种基本的寻址方式外，8086/8088还提供了4种基于转移地址的寻址方式（左边为段内，右边为段间）：
 
 <div align="center">
-    <img src="/pics/jichu3.9.png" width="600px">
+    <img src="/pics/jichu3.9.png" width="800px">
 </div>
 
 [◀返回目录](#目录)
