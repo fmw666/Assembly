@@ -84,8 +84,13 @@
   
 &ensp;&ensp;&ensp;&ensp;操作数就包含在指令中，它作为指令的一部分，跟在操作后存放在代码段，这种操作数称为立即数（可以是8位，也可以是16位）。
 
+例如：
+```asm
+MOV AX,1234H
+```
+
 <div align="center">
-    <img src="/pics/jichu3.1" width="150px">
+    <img src="/pics/jichu3.1.png" width="400px">
 </div>
 
 **2. 寄存器寻址方式**
