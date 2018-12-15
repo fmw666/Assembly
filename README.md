@@ -167,6 +167,33 @@ MOV AX,[BX][DI]
 
 **7. 相对基址加变址寻址方式**
 
+&ensp;&ensp;&ensp;&ensp;操作数在存储器中，其有效地址是由：基址寄存器之一的内容与变址寄存器之一的内容及指令中给定的8位或16位位移量相加得到。即：
+
+<div align="center">
+    <img src="/pics/jichu3.8.png" width="400px">
+</div>
+
+&ensp;&ensp;&ensp;&ensp;在一般情况下，如果BP的内容作为有效地址的一部分，则引用的段寄存器是SS，否则是DS。
+
+例如：假设(DS)=5000H，(BX)=1223H，(DI)=54H，(51275)=54H，(51276)=76H
+```asm
+MOV AX,[BX+DI-2]
+```
+则物理地址=50000+1223+0054+FFFFE=51275H，指令执行后，(AX)=7654H
+
+相对基址加变址表示方法多种多样，下面这四种表示方法均是等价的：
+```asm
+MOV AX,[BX+DI+1234H]
+MOV AX,1234H[BX][DI]
+MOV AX,1234H[BX+DI]
+MOV AX,1234H[DI][BX]
+```
+
+&ensp;&ensp;&ensp;&ensp;除了这7种基本的寻址方式外，8086/8088还提供了4种基于转移地址的寻址方式（左边为段内，右边为段间）：
+
+<div align="center">
+    <img src="/pics/jichu3.9.png" width="600px">
+</div>
 
 [◀返回目录](#目录)
 
