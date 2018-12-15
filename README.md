@@ -116,9 +116,54 @@ MOV AX,[8054H]
 
 **4. 寄存器间接寻址方式**
 
+&ensp;&ensp;&ensp;&ensp;操作数在存储器中，操作数有效地址在SI、DI、BX、BP这四个寄存器之一中。在一般情况下，如果有效地址在SI、DI和BX中，则默认段位DS段。如果有效地址在BP中，则默认段为SS段。
+
+例如：假设(DS)=5000H，(SI)=1234H
+```asm
+MOV AX,[SI]
+```
+
+<div align="center">
+    <img src="/pics/jichu3.3.png" width="400px">
+</div>
+
 **5. 寄存器相对寻址方式**
 
+&ensp;&ensp;&ensp;&ensp;操作数在存储器中，操作数的有效地址是一个基址寄存器（BX、BP）或变址寄存器（SI、DI）内容加上指令中给定的8位或16位位移量之和。在一般情况下，如果SI、DI或BX之内容作为有效地址的一部分，那么引用的段寄存器是DS。如果BP的内容作为有效地址的一部分，那么引用的段寄存器是SS。
+
+<div align="center">
+    <img src="/pics/jichu3.4.png" width="400px">
+</div>
+
+例如：假设(DS)=5000H，(DI)=3678H
+```asm
+MOV AX,[DI+1234H]
+```
+则物理地址=50000+3678+1223=5489BH，如果该字存储单元的内容如下，则(AX)=55AAH
+
+<div align="center">
+    <img src="/pics/jichu3.5.png" width="400px">
+</div>
+
 **6. 基址加变址寻址方式**
+
+&ensp;&ensp;&ensp;&ensp;操作数在存储器中，操作数的有效地址是由：基址寄存器之一的内容与变址寄存器之一的内容相加。即：
+
+<div align="center">
+    <img src="/pics/jichu3.6.png" width="400px">
+</div>
+
+&ensp;&ensp;&ensp;&ensp;在一般情况下，如果BP的内容作为有效地址的一部分，则引用的段寄存器是SS，否则是DS。
+
+例如：假设(DS)=2100H，(BX)=0158H，(DI)=10A5H
+```asm
+MOV AX,[BX][DI]
+```
+假设该字存储单元的内容如下，则(AX)=1234H
+
+<div align="center">
+    <img src="/pics/jichu3.7.png" width="400px">
+</div>
 
 **7. 相对基址加变址寻址方式**
 
