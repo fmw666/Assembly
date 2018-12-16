@@ -350,23 +350,28 @@ CODES ENDS                                          CODES ENDS
 <a name="shiyan1"> </a>
 ## 打印输出"Hello World!"
 ```asm
-DATAS  SEGMENT
-     STR1  DB  'Hello World!',13,10,'$'
-DATAS  ENDS
+DATAS  SEGMENT                           ;定义一个DATAS段
+    STR1  DB  'Hello World!',13,10,'$'   ;具体看下面解答部分↓
+DATAS  ENDS                              ;DATAS段结束
 
-CODES  SEGMENT
-     ASSUME    CS:CODES,DS:DATAS
-START:
-     MOV  AX,DATAS      ;把立即数赋给AX寄存器
-     MOV  DS,AX          ;段地址寄存器赋给AX ，再移到DS
-     LEA  DX,STR1        ;调用字符串开始地址
-     MOV  AH,9           ;调用dos系统9号功能
-     INT  21H             ;中断
-   
-     MOV  AH,4CH
-     INT  21H
-CODES  ENDS
-END   START
+CODES  SEGMENT                           ;定义一个CODES段
+    ASSUME    CS:CODES,DS:DATAS          ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                   ;程序开始标号处
+    MOV  AX,DATAS                        ;加载数据段寄存器DS到通用寄存器AX中
+    MOV  DS,AX                           ;段地址寄存器赋给AX ，再移到DS
+    LEA  DX,STR1                         ;调用字符串开始地址
+    MOV  AH,9                            ;调用DOS系统9号功能：显示字符串
+    INT  21H                             ;调用DOS功能中断
+	
+    MOV  AH,4CH                          ;调用DOS系统4C号功能：结束程序
+    INT  21H                             ;调用DOS功能中断
+CODES  ENDS                              ;CODES段结束
+    END  START                           ;汇编程序运行结束
+    
+;1. 如何理解第二段中“STR1  DB  'Hello World!',13,10,'$'”这句指令？
+;答：由于STR是汇编一个关键字指令，则命名应该避免否则会报错；
+;    伪指令DB用于字符串中定义字节数据，字符串用引号括起来；
+;    13，10分别是回车符与换行符的ASCII值，执行的结果是回车换行，$是字符串结束的标志。
 ```
 
 [◀返回目录](#目录)
