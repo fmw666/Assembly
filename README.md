@@ -357,8 +357,8 @@ DATAS  ENDS                              ;DATAS段结束
 CODES  SEGMENT                           ;定义一个CODES段
     ASSUME    CS:CODES,DS:DATAS          ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
 START:                                   ;程序开始标号处
-    MOV  AX,DATAS                        ;加载数据段寄存器DS到通用寄存器AX中
-    MOV  DS,AX                           ;段地址寄存器赋给AX ，再移到DS
+    MOV  AX,DATAS                        ;先将立即数变量存到通用寄存器AX中作为中转
+    MOV  DS,AX                           ;将立即数送到段寄存器DS中
     LEA  DX,STR1                         ;调用字符串开始地址
     MOV  AH,9                            ;调用DOS系统9号功能：显示字符串
     INT  21H                             ;调用DOS功能中断
@@ -373,6 +373,10 @@ CODES  ENDS                              ;CODES段结束
 ;答：由于STR是汇编一个关键字指令，则命名应该避免否则会报错；
 ;    伪指令DB用于字符串中定义字节数据，字符串用引号括起来；
 ;    13，10分别是回车符与换行符的ASCII值，执行的结果是回车换行，$是字符串结束的标志。
+
+;2. 如何理解第八、九段中MOV的操作？
+
+;答：MOV指令不允许将立即数直接送给段寄存器，通常是借助通用寄存器中转。
 ```
 
 [◀返回目录](#目录)
