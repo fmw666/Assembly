@@ -392,55 +392,71 @@ CODES  ENDS                              ;CODES段结束
 ## 双精度数加减法
 ***双精度数加法***
 ```asm
-DATAS SEGMENT
-    X DW 1,2         ;给双精度X赋值 
-    Y DW 3,4         ;给双精度Y赋值 
-    Z DW 0,0         ;给双精度Z赋值 
-DATAS ENDS
+DATAS SEGMENT                      ;定义一个DATAS段
+    X DW 1,2                       ;给字变量X赋值，具体看下面解答部分↓0001H，0002H 
+    Y DW 3,4                       ;给字变量Y赋值，其中X和Y为加数 
+    Z DW 0,0                       ;给字变量Z赋值，其中Z为X和Y的和 
+DATAS ENDS                         ;DATAS段结束
 
-STACKS SEGMENT
-    ;此处输入堆栈段代码
-STACKS ENDS
-
-CODES SEGMENT
-    ASSUME CS:CODES,DS:DATAS,SS:STACKS
-START:
-    MOV AX,DATAS
-    MOV DS,AX
+CODES SEGMENT                      ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS       ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                             ;程序开始标号处
+    MOV AX,DATAS                   ;先将段DATAS中立即数存到通用寄存器AX中作为中转
+    MOV DS,AX                      ;将立即数送到段寄存器DS中
     
-    MOV AX,X         ;把X低位放到AX寄存器中
-    MOV DX,X+2       ;把X高位放到DX寄存器中
+    MOV AX,X                       ;将X的低位部分存放在AX寄存器中
+    MOV DX,X+2                     ;将X的高位部分存放在DX寄存器中
     
-    ADD AX,Y         ;把X低位和Y低位相加，存在X中
-    ADC DX,Y+2       ;把X高位和Y高位相加，存在DX中
+    ADD AX,Y                       ;将X的低位部分和Y的低位部分相加，结果存放在AX寄存器中
+    ADC DX,Y+2                     ;将X的高位部分和Y的高位高位相加，结果存放在DX寄存器中
     
-    MOV Z,AX         ;把低位相加得到的数放到Z的地位
-    MOV Z+2,DX       ;把高位相加得到的数放到Z的高位
+    MOV Z,AX                       ;将AX中X和Y低位部分相加得到的结果存放在Z的低位部分中
+    MOV Z+2,DX                     ;将DX中X和Y高位部分相加得到的结果存放在Z的高位部分中
     
     MOV DX,Z+2
     MOV DL,DH
-    ADD DL,'0'          ;输出Z的高位
-    MOV AH,02H        ;调用dos系统的02号功能
-    INT 21H             ;中断
+    ADD DL,'0'                     ;输出Z的高位
+    MOV AH,02H                     ;调用dos系统的02号功能
+    INT 21H                        ;调用DOS功能中断
     MOV DX,Z+2
     ADD DL,'0'
-    MOV AH,02H
-    INT 21H
+    MOV AH,02H                     ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                        ;调用DOS功能中断
     
     MOV DX,Z
     MOV DL,DH
     ADD DL,'0'          ;输出Z的高位
-    MOV AH,02H        ;调用dos系统的02号功能
-    INT 21H             ;中断
+    MOV AH,02H                     ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                        ;调用DOS功能中断
     MOV DX,Z
     ADD DL,'0'
     MOV AH,02H
-    INT 21H
-    ;此处输入代码段代码
-    MOV AH,4CH
-    INT 21H
-CODES ENDS
-    END START
+    INT 21H                        ;调用DOS功能中断
+    
+    MOV AH,4CH                     ;调用DOS系统4C号功能：结束程序
+    INT 21H                        ;调用DOS功能中断
+CODES ENDS                         ;CODES段结束
+    END START                      ;汇编程序运行结束
+    
+;-----------------------------------------------------------------------------
+;1. 在DATAS段中，如何理解“X DW 1,2”这个赋值过程？
+
+;答：DW全称为：define word，其中一个word字占四个字节。一个字节又占八位，
+;    所以，一个DW子类型变量占32位，即32个长度的二进制数。1，2是十进制表
+;    示法，而如果要用我们常用的16进制，则应该表示为：0001H,0002H，其中
+;    0001H在低半位，0002H在高半位。因为4位二进制等价于1位十六进制，所以
+;    4个长度的十六进制表示16位二进制。
+;-----------------------------------------------------------------------------
+;2. DW的高低位是分别存放什么寄存器之中？
+
+;答：双字长运算时用来存放高位字的寄存器为DX，存放低位字的寄存器一般是AX。
+;-----------------------------------------------------------------------------
+;3. 在程序第14段，为什么X+2就能代表X的高位（同理Y和Z）？
+
+;答：X是变量名，本身也是地址。X+2表示基于X的地址多加了两个字节长度（16位），
+;    而第1问中讲了DW一共由32位二进制来表示，所以第16位上下分别位高低部分。
+;-----------------------------------------------------------------------------
+
 ```
 
 ***双精度数减法***
