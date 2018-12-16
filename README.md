@@ -357,7 +357,7 @@ DATAS  ENDS                              ;DATAS段结束
 CODES  SEGMENT                           ;定义一个CODES段
     ASSUME    CS:CODES,DS:DATAS          ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
 START:                                   ;程序开始标号处
-    MOV  AX,DATAS                        ;先将立即数变量存到通用寄存器AX中作为中转
+    MOV  AX,DATAS                        ;先将段DATAS中立即数存到通用寄存器AX中作为中转
     MOV  DS,AX                           ;将立即数送到段寄存器DS中
     LEA  DX,STR1                         ;调用字符串开始地址
     MOV  AH,9                            ;调用DOS系统9号功能：显示字符串
@@ -377,6 +377,12 @@ CODES  ENDS                              ;CODES段结束
 ;2. 如何理解第八、九段中MOV的操作？
 
 ;答：MOV指令不允许将立即数直接送给段寄存器，通常是借助通用寄存器中转。
+
+;3. 什么是立即数？
+
+;答：汇编语言中中操作数有三种：寄存器操作数、存储器操作数和立即数；
+;    其中立即数相当于高级语言中的常量（常数），它是直接出现在指令中的数，
+;    不用存储在寄存器或存储器中。如指令ADD AL,06H中的06H即为立即数。
 ```
 
 [◀返回目录](#目录)
