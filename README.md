@@ -522,126 +522,126 @@ CODES ENDS                         ;CODES段结束
 <a name="shiyan3"> </a>
 ## 四则运算
 ```asm
-DATAS SEGMENT                    ;定义一个DATAS段
-    X DW 3                       ;给字变量X赋值，X占16位
-    Y DW 2                       ;给字变量Y赋值，Y占16位
-    STR1 DB 'X = $'              ;用于输出的表达式字符串，下同理
+DATAS SEGMENT                  ;定义一个DATAS段
+    X DW 3                     ;给字变量X赋值，X占16位
+    Y DW 2                     ;给字变量Y赋值，Y占16位
+    STR1 DB 'X = $'            ;用于输出的表达式字符串，下同理
     STR2 DB 'Y = $'
     STR3 DB 'X + Y = $'
     STR4 DB 'X - Y = $'
     STR5 DB 'X * Y = $'
     STR6 DB 'X / Y = $'   
-    STR7 DB '...$'               ;余数的表达形式，如：5/2=2...1    
-DATAS ENDS                       ;DATAS段结束
+    STR7 DB '...$'             ;余数的表达形式，如：5/2=2...1    
+DATAS ENDS                     ;DATAS段结束
 
-CODES SEGMENT                    ;定义一个CODES段
-    ASSUME CS:CODES,DS:DATAS     ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
-START:                           ;程序开始标号处
-    MOV AX,DATAS                 ;先将段DATAS中立即数存到通用寄存器AX中作为中转
-    MOV DS,AX                    ;将立即数送到段寄存器DS中
+CODES SEGMENT                  ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS   ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                         ;程序开始标号处
+    MOV AX,DATAS               ;先将段DATAS中立即数存到通用寄存器AX中作为中转
+    MOV DS,AX                  ;将立即数送到段寄存器DS中
     
     ;输出"X = "
-    LEA DX,STR1                  ;调用字符串STR1开始有效地址（偏移地址），存放在寄存器DX中
-    MOV AH,09H                   ;调用DOS系统9号功能：显示字符串 
-    INT 21H                      ;调用DOS功能中断
+    LEA DX,STR1                ;调用字符串STR1开始有效地址（偏移地址），存放在寄存器DX中
+    MOV AH,09H                 ;调用DOS系统9号功能：显示字符串 
+    INT 21H                    ;调用DOS功能中断
     ;输出X的值
-    MOV DX,X                     ;将X的值存放在DX寄存器中
-    ADD DL,'0'                   ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断
+    MOV DX,X                   ;将X的值存放在DX寄存器中
+    ADD DL,'0'                 ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断
     ;输出回车换行
-    MOV DL,10                    ;输出回车换行，回车键ACSII值为10
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断
+    MOV DL,10                  ;输出回车换行，回车键ACSII值为10
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断
     
     ;输出"Y = "
-    LEA DX,STR2                  ;调用字符串STR2开始有效地址（偏移地址），存放在寄存器DX中
-    MOV AH,09H                   ;调用DOS系统9号功能：显示字符串 
-    INT 21H                      ;调用DOS功能中断
+    LEA DX,STR2                ;调用字符串STR2开始有效地址（偏移地址），存放在寄存器DX中
+    MOV AH,09H                 ;调用DOS系统9号功能：显示字符串 
+    INT 21H                    ;调用DOS功能中断
     ;输出Y的值
-    MOV DX,Y                     ;将Y的值存放在DX寄存器中
-    ADD DL,'0'                   ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断 
+    MOV DX,Y                   ;将Y的值存放在DX寄存器中
+    ADD DL,'0'                 ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断 
     ;输出回车换行
-    MOV DL,10                    ;输出回车换行，回车键ACSII值为10
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断
+    MOV DL,10                  ;输出回车换行，回车键ACSII值为10
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断
     
     ;输出"X + Y = "
-    LEA DX,STR3                  ;调用字符串STR3开始有效地址（偏移地址），存放在寄存器DX中
-    MOV AH,09H                   ;调用DOS系统9号功能：显示字符串 
-    INT 21H                      ;调用DOS功能中断
+    LEA DX,STR3                ;调用字符串STR3开始有效地址（偏移地址），存放在寄存器DX中
+    MOV AH,09H                 ;调用DOS系统9号功能：显示字符串 
+    INT 21H                    ;调用DOS功能中断
     ;输出X+Y的值
-    MOV DX,X                     ;将X的值存放在DX中
-    ADD DX,Y                     ;将X和Y相加，结果存放在DX中
-    ADD DL,'0'                   ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断 
+    MOV DX,X                   ;将X的值存放在DX中
+    ADD DX,Y                   ;将X和Y相加，结果存放在DX中
+    ADD DL,'0'                 ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断 
     ;输出回车换行
-    MOV DL,10                    ;输出回车换行，回车键ACSII值为10
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断
+    MOV DL,10                  ;输出回车换行，回车键ACSII值为10
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断
     
 	;输出"X - Y = "
-    LEA DX,STR4                  ;调用字符串STR4开始有效地址（偏移地址），存放在寄存器DX中
-    MOV AH,09H                   ;调用DOS系统9号功能：显示字符串 
-    INT 21H                      ;调用DOS功能中断
+    LEA DX,STR4                ;调用字符串STR4开始有效地址（偏移地址），存放在寄存器DX中
+    MOV AH,09H                 ;调用DOS系统9号功能：显示字符串 
+    INT 21H                    ;调用DOS功能中断
     ;输出X-Y的值
-    MOV DX,X                     ;将X的值存放在DX中
-    SUB DX,Y                     ;将X和Y相减，结果存放在DX中
-    ADD DL,'0'                   ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断 
+    MOV DX,X                   ;将X的值存放在DX中
+    SUB DX,Y                   ;将X和Y相减，结果存放在DX中
+    ADD DL,'0'                 ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断 
     ;输出回车换行
-    MOV DL,10                    ;输出回车换行，回车键ACSII值为10
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断
+    MOV DL,10                  ;输出回车换行，回车键ACSII值为10
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断
     
-	;输出"X * Y = "
-    LEA DX,STR5                  ;调用字符串STR5开始有效地址（偏移地址），存放在寄存器DX中
-    MOV AH,09H                   ;调用DOS系统9号功能：显示字符串 
-    INT 21H                      ;调用DOS功能中断
+    ;输出"X * Y = "
+    LEA DX,STR5                ;调用字符串STR5开始有效地址（偏移地址），存放在寄存器DX中
+    MOV AH,09H                 ;调用DOS系统9号功能：显示字符串 
+    INT 21H                    ;调用DOS功能中断
     ;输出X*Y的值
-    MOV AX,X                     ;MUL乘法指令中一个乘数在AL寄存器中
-    MUL Y                        ;Y为另一个乘数，X*Y的结果存放在了AX寄存器中
-    MOV DX,AX                    ;将AX中的乘积内容送到DX中用于输出
-    ADD DL,'0'                   ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断
+    MOV AX,X                   ;MUL乘法指令中一个乘数在AL寄存器中
+    MUL Y                      ;Y为另一个乘数，X*Y的结果存放在了AX寄存器中
+    MOV DX,AX                  ;将AX中的乘积内容送到DX中用于输出
+    ADD DL,'0'                 ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断
     ;输出回车换行
-    MOV DL,10                    ;输出回车换行，回车键ACSII值为10
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断
+    MOV DL,10                  ;输出回车换行，回车键ACSII值为10
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断
 
     ;输出"X / Y = "
-    LEA DX,STR6                  ;调用字符串STR6开始有效地址（偏移地址），存放在寄存器DX中
-    MOV AH,09H                   ;调用DOS系统9号功能：显示字符串 
-    INT 21H                      ;调用DOS功能中断
+    LEA DX,STR6                ;调用字符串STR6开始有效地址（偏移地址），存放在寄存器DX中
+    MOV AH,09H                 ;调用DOS系统9号功能：显示字符串 
+    INT 21H                    ;调用DOS功能中断
     ;输出X/Y的商值
-    XOR DX,DX                    ;做16位除法前需要将DX清零
-    MOV AX,X                     ;DIV除法指令中16位被除数在AX寄存器中
-    DIV Y                        ;源操作数Y为除数，X/Y的结果16位的商存放在了AX寄存器中（如果是8位，存放在AL中），16位的余数存放在DX中，16位在AH中
-    MOV DX,AX                    ;将AX中的商值内容送到DX中用于输出
-    ADD DL,'0'                   ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断 
+    XOR DX,DX                  ;做16位除法前需要将DX清零
+    MOV AX,X                   ;DIV除法指令中16位被除数在AX寄存器中
+    DIV Y                      ;Y为除数，X/Y的结果16位商存放在AX中，余数存放在DX中，（如果是8位，商存放在AL中,余数在AH中）
+    MOV DX,AX                  ;将AX中的商值内容送到DX中用于输出
+    ADD DL,'0'                 ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断 
     ;输出"..."
-    LEA DX,STR7                  ;调用字符串STR7开始有效地址（偏移地址），存放在寄存器DX中
-    MOV AH,09H                   ;调用DOS系统9号功能：显示字符串 
-    INT 21H                      ;调用DOS功能中断
+    LEA DX,STR7                ;调用字符串STR7开始有效地址（偏移地址），存放在寄存器DX中
+    MOV AH,09H                 ;调用DOS系统9号功能：显示字符串 
+    INT 21H                    ;调用DOS功能中断
     ;输出X/Y的余数值
-    XOR DX,DX                    ;由于DL中值已被覆盖，重新进行一次除法运算
-    MOV AX,X                     ;DIV除法指令中16位被除数在AX寄存器中
-    DIV Y                        ;源操作数Y为除数，X/Y的结果16位的商存放在了AX寄存器中（如果是8位，存放在AL中），16位的余数存放在DX中，16位在AH中
-    ADD DL,'0'                   ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
-    MOV AH,02H                   ;调用DOS系统的02号功能：显示一个字符
-    INT 21H                      ;调用DOS功能中断 
+    XOR DX,DX                  ;由于DL中值已被覆盖，重新进行一次除法运算
+    MOV AX,X                   ;DIV除法指令中16位被除数在AX寄存器中
+    DIV Y                      ;Y为除数，X/Y的结果16位商存放在AX中，余数存放在DX中，（如果是8位，商存放在AL中,余数在AH中）
+    ADD DL,'0'                 ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                 ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                    ;调用DOS功能中断 
     
-    MOV AH,4CH                   ;调用DOS系统4C号功能：结束程序
-    INT 21H                      ;调用DOS功能中断
-CODES ENDS                       ;CODES段结束
-    END START                    ;汇编程序运行结束
+    MOV AH,4CH                 ;调用DOS系统4C号功能：结束程序
+    INT 21H                    ;调用DOS功能中断
+CODES ENDS                     ;CODES段结束
+    END START                  ;汇编程序运行结束
 ```
 
 [◀返回目录](#目录)
