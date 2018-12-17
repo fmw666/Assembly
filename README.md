@@ -468,54 +468,53 @@ CODES ENDS                         ;CODES段结束
 
 ***双精度数减法***
 ```asm
-DATAS SEGMENT
-    X DW 4,6                  ;给双精度X赋值 
-    Y DW 2,3                  ;给双精度Y赋值
-    Z DW 0,0                  ;给双精度Z赋值
-DATAS ENDS
+DATAS SEGMENT                      ;定义一个DATAS段
+    X DW 4,6                       ;给字变量X赋值，0004H，0006H
+    Y DW 2,3                       ;给字变量Y赋值，其中X和Y分别为被减数和减数 
+    Z DW 0,0                       ;给字变量Z赋值，其中Z为X和Y的差，输出0203 
+DATAS ENDS                         ;DATAS段结束
 
-STACKS SEGMENT
-    ;此处输入堆栈段代码
-STACKS ENDS
-
-CODES SEGMENT
-    ASSUME CS:CODES,DS:DATAS,SS:STACKS
-START:
-    MOV AX,DATAS
-    MOV DS,AX
+CODES SEGMENT                      ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS       ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                             ;程序开始标号处
+    MOV AX,DATAS                   ;先将段DATAS中立即数存到通用寄存器AX中作为中转
+    MOV DS,AX                      ;将立即数送到段寄存器DS中
     
-    MOV AX,X         ;把X的低位放在AX寄存器中
-    MOV DX,X+2       ;把X的高位放在DX寄存器中
+    MOV AX,X                       ;将X的低位部分存放在AX寄存器中
+    MOV DX,X+2                     ;将X的高位部分存放在DX寄存器中
     
-    SUB AX,Y          ;把X与Y的低位相减，存在AX中
-    SBB DX,Y+2        ;把X与Y的高位相减，存在DX中
-    MOV Z,AX         ;低位相减得到的值放在Z的地位
-    MOV Z+2,DX       ;高位相减得到的值放在Z的高位
+    SUB AX,Y                       ;将X的低位部分和Y的低位部分相减，结果存放在AX寄存器中
+    SUB DX,Y+2                     ;将X的高位部分和Y的高位高位相减，结果存放在DX寄存器中
     
-    MOV DX,Z+2
-    MOV DL,DH
-    ADD DL,'0'          ;输出Z的高位
-    MOV AH,02H       ;调用dos系统2号功能
-    INT 21H            ;中断
-    MOV DX,Z+2
-    ADD DL,'0'
-    MOV AH,02H
-    INT 21H
-    
-    MOV DX,Z
-    MOV DL,DH
-    ADD DL,'0'          ;输出Z的低位
-    MOV AH,02H       ;调用dos系统2号功能
-    INT 21H            ;中断
-    MOV DX,Z
-    ADD DL,'0'
-    MOV AH,02H
-    INT 21H
-    ;此处输入代码段代码
-    MOV AH,4CH
-    INT 21H
-CODES ENDS
-    END START
+    MOV Z,AX                       ;将AX中X和Y低位部分相减得到的结果存放在Z的低位部分中
+    MOV Z+2,DX                     ;将DX中X和Y高位部分相减得到的结果存放在Z的高位部分中
+    ;输出Z低位的0
+    MOV DX,Z                       ;将Z的低位16位放在DX寄存器（16位）中，此时DH中八位为00H，DL中八位为02H
+    MOV DL,DH                      ;将DH中的值0 赋给DL用于输出
+    ADD DL,'0'                     ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                     ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                        ;调用DOS功能中断
+    ;输出Z低位的2
+    MOV DX,Z                       ;由于DL中的值被改变，所以重新将Z的低位存入DX中
+    ADD DL,'0'                     ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                     ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                        ;调用DOS功能中断
+    ;输出Z高位的0
+    MOV DX,Z+2                     ;将Z的高位16位放在DX寄存器（16位）中，此时DH中八位为00H，DL中八位为03H
+    MOV DL,DH                      ;将DH中的值0 赋给DL用于输出
+    ADD DL,'0'                     ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                     ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                        ;调用DOS功能中断
+    ;输出Z高位的3
+    MOV DX,Z+2                     ;由于DL中的值被改变，所以重新将Z的高位存入DX中
+    ADD DL,'0'                     ;把数字变成字符输出，因为汇编中只能输出字符；0的ASCII值是30H，数字加上'0'后变为字符
+    MOV AH,02H                     ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                        ;调用DOS功能中断
+      
+    MOV AH,4CH                     ;调用DOS系统4C号功能：结束程序
+    INT 21H                        ;调用DOS功能中断
+CODES ENDS                         ;CODES段结束
+    END START                      ;汇编程序运行结束
 ```
 
 [◀返回目录](#目录)
