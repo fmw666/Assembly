@@ -523,40 +523,49 @@ CODES ENDS                         ;CODES段结束
 ## 串操作
 ***串拷贝***
 ```asm
-DATAS SEGMENT
-    ;此处输入数据段代码 
-    STR1 DB 'fmw2017110110 $'     ;定义一串字符
-    
-    STR2 DB 20 DUP(?)    ;定义作为拷贝对象
-DATAS ENDS
+DATAS SEGMENT                          ;定义一个DATAS段
+    STR1 DB 'fmw2017110110 $'          ;定义一串源字符串STR1，$是字符串结束的标志
+    STR2 DB 20 DUP(?)                  ;定义一串目的字符串STR2，具体看下面解答部分↓
+DATAS ENDS                             ;DATAS段结束
 
-STACKS SEGMENT
-    ;此处输入堆栈段代码
-STACKS ENDS
-
-CODES SEGMENT
-    ASSUME CS:CODES,ES:DATAS
-START:
-    MOV AX,DATAS    
-    MOV ES,AX         
-    ;此处输入代码段代码
+CODES SEGMENT                          ;定义一个CODES段
+    ASSUME CS:CODES,ES:DATAS           ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                 ;程序开始标号处
+    MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
+    MOV ES,AX                          ;将立即数送到段寄存器ES中
     
-    LEA SI,STR1     ;把STR1存在SI中
-    LEA DI,STR2     ;把STR2存在DI中
-    MOV CX,20      
-    CLD            ;使变址寄存器SI或DI的地址指针自动增加
+    LEA SI,STR1                        ;调用字符串STR1开始有效地址（偏移地址），存放在源变址寄存器SI中
+    LEA DI,STR2                        ;调用字符串STR2开始有效地址（偏移地址），存放在目的变址寄存器DI中
+    MOV CX,20                          ;将STR2的存储单元20存放入保存计数值的CX寄存器中  
+    CLD                                ;clear direction，使变址寄存器SI和DI的地址指针自动增加
     REP MOVS ES:BYTE PTR[DI],ES:[SI]   ;表明是操作的是字节
     
-    LEA DX,STR2   ;把STR2放入到DX中
-    MOV AX,ES        
-    MOV DS,AX     ;把AX里的传到DS
-    MOV AH,9      ;输出字符串
-    INT 21H         
+    LEA DX,STR2                        ;调用字符串STR2开始有效地址（偏移地址），存放在寄存器DX中
+    ;MOV AX,ES        
+    MOV DS,AX                     ;把AX里的传到DS
+    MOV AH,09H                         ;调用DOS系统9号功能：显示字符串
+    INT 21H                            ;调用DOS功能中断         
+   
+    MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
+    INT 21H                            ;调用DOS功能中断        
+CODES ENDS                             ;CODES段结束
+    END START                          ;汇编程序运行结束
+
+;-----------------------------------------------------------------------------
+;1. 如何理解第三段中“STR2 DB 20 DUP(?)”这句指令的意思？   
     
-    MOV AH,4CH
-    INT 21H        
-CODES ENDS
-    END START
+;答：定义字符串STR2，由于STR2在此程序中用作拷贝的对象，所以STR2在定义时
+;    预先给它分配20个存储单元，且不预置对应的变量初值。使用重复操作符DUP，
+;    来设置20个存储单元的初值。使用'?'来表示未设值的变量。所以在定义时被
+;    表示成“20 DUP(?)”。
+;-----------------------------------------------------------------------------    
+;2. 第十二、十三段中，为什么STR1和STR2的有效地址要分别存入SI和DI寄存器中？
+
+;答：通用寄存器SI（source index）称为源变址寄存器，
+;    用来确定段中某一存储单元的地址，有自动增量和自动减量的功能。
+;    通用寄存器DI（destination index）称为目的变址寄存器，
+;    用来确定段中某一存储单元的地址，有自动增量和自动减量的功能。
+
 ```
 
 ***串扫描***
