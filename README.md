@@ -916,11 +916,73 @@ END START
 
    [A. ZF=0]()&ensp;&ensp;&ensp;&ensp;B. CF=0&ensp;&ensp;&ensp;&ensp;C. ZF=1&ensp;&ensp;&ensp;&ensp;D. CF=1
    
-15. 8086CPU 在基址加变址的寻址方式中，变址寄存器可以为（）
+1. 8086CPU 在基址加变址的寻址方式中，变址寄存器可以为（）
 
    A. BX 或 CX&ensp;&ensp;&ensp;&ensp;B. CX 或 SI&ensp;&ensp;&ensp;&ensp;C. DX 或 SI&ensp;&ensp;&ensp;&ensp;[D. SI 或 DI]()
    
+1. 已知 BX=2000H，SI=1234H，则指令 MOV AX,[BX+SI+2] 的源操作数在（）中。
+
+   [A. 数据段中偏移量为3236H的字节中]br>
+   B. 附加段中偏移量为3234H的字节中<br>
+   C. 数据段中偏移量为3234H的字节中<br>
+   D. 附加段中偏移量为3236H的字节中
    
+1. 执行如下程序：
+   ```asm
+   MOV AX,0
+   MOB BX,1
+   MOV CX,100
+   A: ADD AXX,BX
+   INC BX 
+   LOOP A
+   HLT
+   ```
+   执行后（BX）=()
    
+   A. 99&ensp;&ensp;&ensp;&ensp;B. 100&ensp;&ensp;&ensp;&ensp;[C. 101]()&ensp;&ensp;&ensp;&ensp;D. 102
    
+1. 对于下列程序段：
+   ```asm
+   AGAIN: MOV AL,[SI]
+   MOV ES:[DI],AL
+   INC SI 
+   INC DI
+   LOOP AGAIN
+   ```
+   也可用（）指令完成同样的功能。
    
+   [A. REP MOVSB]&ensp;&ensp;&ensp;&ensp;B. REP LODSB&ensp;&ensp;&ensp;&ensp;C. REP STOSB&ensp;&ensp;&ensp;&ensp;D. REPE SCASB
+   
+1. 下面指令序列执行后完成的运算，正确的算术表达式应是（）
+   ```asm
+   MOV AL,BYTE PTR X
+   SHL AL,1
+   DEC AL
+   MOV BYTE PTR Y AL
+   ```
+   
+   A. y=2x+1&ensp;&ensp;&ensp;&ensp;B. x=2y+1&ensp;&ensp;&ensp;&ensp;C. x=2y-1&ensp;&ensp;&ensp;&ensp;[D. y=2x-1]()
+   
+1. 在一段汇编程序中多次调用另一段程序，用宏指令比用子程序实现起来（）
+
+   A. 占内存空间小，但速度慢&ensp;&ensp;&ensp;&ensp;[B. 占内存空间大，但速度快]()&ensp;&ensp;&ensp;&ensp;C. 占内存空间相同，速度快&ensp;&ensp;&ensp;&ensp;D. 占内存空间相同，速度慢
+   
+1. 在程序执行过程中，IP寄存器中始终保存的是（）
+
+   A. 上一条指令的首地址&ensp;&ensp;&ensp;&ensp;[B. 下一条指令的首地址]()&ensp;&ensp;&ensp;&ensp;C. 正在执行指令的首地址&ensp;&ensp;&ensp;&ensp;D. 需计算有效地址后才能确定地址
+   
+1. PSW寄存器中共有___位条件状态位，有___位控制状态位（）
+
+   [A. 6、3]()&ensp;&ensp;&ensp;&ensp;B. 3、6&ensp;&ensp;&ensp;&ensp;C. 8、4&ensp;&ensp;&ensp;&ensp;D. 4、8
+   
+1．下列指令执行时出错的是（）
+
+   [A. ADD BUF1,BUF2]()&ensp;&ensp;&ensp;&ensp;B. JMP DWORD PTR DAT [BX]&ensp;&ensp;&ensp;&ensp;C. MOV AX,[BX+DI] NUM&ensp;&ensp;&ensp;&ensp;D. TEST AL,08H
+   
+1. 串指令中的目的操作数地址是由（）提供。
+
+   A. SS:[BP]&ensp;&ensp;&ensp;&ensp;B. DS:[SI]&ensp;&ensp;&ensp;&ensp;[C. ES:[DI]]()&ensp;&ensp;&ensp;&ensp;D. CS:[IP]
+   
+1. 将 DX 的内容除以2，正确的指令是（）
+ 
+   A. DIV 2&ensp;&ensp;&ensp;&ensp;B. DIV DX,2&ensp;&ensp;&ensp;&ensp;[C. SAR DX,1]()&ensp;&ensp;&ensp;&ensp;D. SHL DX,1
