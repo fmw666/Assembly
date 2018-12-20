@@ -893,30 +893,30 @@ END START
 
    A. BCD码&ensp;&ensp;&ensp;&ensp;B. 二进制码&ensp;&ensp;&ensp;&ensp;[C. ASCII码]()&ensp;&ensp;&ensp;&ensp;D. 十六进制码
    
-10.用指令的助记符、符号地址、标号和伪指令、宏指令以及规定的格式书写程序的语言称为（）
+10. 用指令的助记符、符号地址、标号和伪指令、宏指令以及规定的格式书写程序的语言称为（）
 
    [A. 汇编语言]()&ensp;&ensp;&ensp;&ensp;B. 高级语言&ensp;&ensp;&ensp;&ensp;C. 机器语言&ensp;&ensp;&ensp;&ensp;D. 低级语言
 
-11.指令 JMP FAR PTR DONE 属于（）
+11. 指令 JMP FAR PTR DONE 属于（）
 
    A. 段内转移直接寻址&ensp;&ensp;&ensp;&ensp;B. 段内转移间接寻址&ensp;&ensp;&ensp;&ensp;[C. 段间转移直接寻址]()&ensp;&ensp;&ensp;&ensp;D. 段间转移间接寻址
 
-12.下列叙述正确的是（）
+12. 下列叙述正确的是（）
 
    A. 对两个无符号数进行比较采用 CMP 指令，对两个有符号数比较用 CMPS 指令<br>
    B. 对两个无符号数进行比较采用 CMPS 指令，对两个有符号数比较用 CMP 指令<br>
    [C. 对无符号数条件转移采用 JAE/JNB 指令，对有符号数条件转移用 JGE/JNL 指令]()<br>
    D. 对两个无符号数进行比较采用 CMP 指令，对两个有符号数比较用 CMPS 指令
 
-13.在下列指令的表示中，不正确的是（）
+13. 在下列指令的表示中，不正确的是（）
 
    A. MOV AL,[BX+SI]&ensp;&ensp;&ensp;&ensp;B. JMP SHORT DONI&ensp;&ensp;&ensp;&ensp;[C. DEC [BX]]()&ensp;&ensp;&ensp;&ensp;D. MUL CL
    
-14.条件转移指令 JNE 的测试条件为（）
+14. 条件转移指令 JNE 的测试条件为（）
 
    [A. ZF=0]()&ensp;&ensp;&ensp;&ensp;B. CF=0&ensp;&ensp;&ensp;&ensp;C. ZF=1&ensp;&ensp;&ensp;&ensp;D. CF=1
    
-15.8086CPU 在基址加变址的寻址方式中，变址寄存器可以为（）
+15. 8086CPU 在基址加变址的寻址方式中，变址寄存器可以为（）
 
    A. BX 或 CX&ensp;&ensp;&ensp;&ensp;B. CX 或 SI&ensp;&ensp;&ensp;&ensp;C. DX 或 SI&ensp;&ensp;&ensp;&ensp;[D. SI 或 DI]()
    
