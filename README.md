@@ -859,66 +859,66 @@ END START
 ## 单项选择题
 1. CPU发出的访问存储器的地址是（）
 
-   A. [物理地址]()&ensp;&ensp;&ensp;&ensp;B. 偏移地址&ensp;&ensp;&ensp;&ensp;C. 逻辑地址&ensp;&ensp;&ensp;&ensp;D. 段地址
+   [A. 物理地址]()&ensp;&ensp;&ensp;&ensp;B. 偏移地址&ensp;&ensp;&ensp;&ensp;C. 逻辑地址&ensp;&ensp;&ensp;&ensp;D. 段地址
  
 2. 将高级语言的程序翻译成机器码程序的实用程序是（）
 
-   A. [编译程序]()&ensp;&ensp;&ensp;&ensp;B. 汇编程序&ensp;&ensp;&ensp;&ensp;C. 解释程序&ensp;&ensp;&ensp;&ensp;D. 目标程序
+   [A. 编译程序]()&ensp;&ensp;&ensp;&ensp;B. 汇编程序&ensp;&ensp;&ensp;&ensp;C. 解释程序&ensp;&ensp;&ensp;&ensp;D. 目标程序
    
 3. DEC BYTE PTR [BX] 指令中的操作数的数据类型是（）
 
-   A. 字&ensp;&ensp;&ensp;&ensp;B. 双字&ensp;&ensp;&ensp;&ensp;C. [字节]()&ensp;&ensp;&ensp;&ensp;D. 四字
+   A. 字&ensp;&ensp;&ensp;&ensp;B. 双字&ensp;&ensp;&ensp;&ensp;[C. 字节]()&ensp;&ensp;&ensp;&ensp;D. 四字
    
 4. BUFFER DB 01H,0AH 指令中BUFFER称为（）
 
-   A. 符号&ensp;&ensp;&ensp;&ensp;B. [变量]()&ensp;&ensp;&ensp;&ensp;C. 助记符&ensp;&ensp;&ensp;&ensp;D. 标号
+   A. 符号&ensp;&ensp;&ensp;&ensp;[B. 变量]()&ensp;&ensp;&ensp;&ensp;C. 助记符&ensp;&ensp;&ensp;&ensp;D. 标号
 
 5. 串操作指令中，源串操作数的段地址一定在（）寄存器中。
 
-   A. CS&ensp;&ensp;&ensp;&ensp;B. SS&ensp;&ensp;&ensp;&ensp;C. [DS]()&ensp;&ensp;&ensp;&ensp;D. ES
+   A. CS&ensp;&ensp;&ensp;&ensp;B. SS&ensp;&ensp;&ensp;&ensp;[C. DS]()&ensp;&ensp;&ensp;&ensp;D. ES
 
 6. 使计算机执行某种操作的命令是（）
 
-   A. 伪指令&ensp;&ensp;&ensp;&ensp;B. [指令]()&ensp;&ensp;&ensp;&ensp;C. 标号&ensp;&ensp;&ensp;&ensp;D. 助记符
+   A. 伪指令&ensp;&ensp;&ensp;&ensp;[B. 指令]()&ensp;&ensp;&ensp;&ensp;C. 标号&ensp;&ensp;&ensp;&ensp;D. 助记符
 
 7. 将数据 5618H 存放在存储单元中的伪指令是（）
 
-   A. DATA1 DW 1856H&ensp;&ensp;&ensp;&ensp;B. [DATA1 DB 18H,56H]()&ensp;&ensp;&ensp;&ensp;C. DATA1 EQU 5618H&ensp;&ensp;&ensp;&ensp;D. DATA1 DB 18H,00H,56H,00H
+   A. DATA1 DW 1856H&ensp;&ensp;&ensp;&ensp;[B. DATA1 DB 18H,56H]()&ensp;&ensp;&ensp;&ensp;C. DATA1 EQU 5618H&ensp;&ensp;&ensp;&ensp;D. DATA1 DB 18H,00H,56H,00H
 
 8. 若 AX=3500H，CX=56B8H，当 AND AX,CX 指令执行后，AX=（）
 
-   A. [1400H]()&ensp;&ensp;&ensp;&ensp;B. 77F8H&ensp;&ensp;&ensp;&ensp;C. 0000H&ensp;&ensp;&ensp;&ensp;D. 0FFFFH
+   [A. 1400H]()&ensp;&ensp;&ensp;&ensp;B. 77F8H&ensp;&ensp;&ensp;&ensp;C. 0000H&ensp;&ensp;&ensp;&ensp;D. 0FFFFH
   
 9. 计算机处理问题中会碰到大量的字符、符号，对此必须采用统一的二进制编码。目前，微机中普遍采用的是（）码。
 
-   A. BCD码&ensp;&ensp;&ensp;&ensp;B. 二进制码&ensp;&ensp;&ensp;&ensp;C. [ASCII码]()&ensp;&ensp;&ensp;&ensp;D. 十六进制码
+   A. BCD码&ensp;&ensp;&ensp;&ensp;B. 二进制码&ensp;&ensp;&ensp;&ensp;[C. ASCII码]()&ensp;&ensp;&ensp;&ensp;D. 十六进制码
    
 10.用指令的助记符、符号地址、标号和伪指令、宏指令以及规定的格式书写程序的语言称为（）
 
-   A. [汇编语言]()&ensp;&ensp;&ensp;&ensp;B. 高级语言&ensp;&ensp;&ensp;&ensp;C. 机器语言&ensp;&ensp;&ensp;&ensp;D. 低级语言
+   [A. 汇编语言]()&ensp;&ensp;&ensp;&ensp;B. 高级语言&ensp;&ensp;&ensp;&ensp;C. 机器语言&ensp;&ensp;&ensp;&ensp;D. 低级语言
 
 11.指令 JMP FAR PTR DONE 属于（）
 
-   A. 段内转移直接寻址&ensp;&ensp;&ensp;&ensp;B. 段内转移间接寻址&ensp;&ensp;&ensp;&ensp;C. [段间转移直接寻址]()&ensp;&ensp;&ensp;&ensp;D. 段间转移间接寻址
+   A. 段内转移直接寻址&ensp;&ensp;&ensp;&ensp;B. 段内转移间接寻址&ensp;&ensp;&ensp;&ensp;[C. 段间转移直接寻址]()&ensp;&ensp;&ensp;&ensp;D. 段间转移间接寻址
 
 12.下列叙述正确的是（）
 
    A. 对两个无符号数进行比较采用 CMP 指令，对两个有符号数比较用 CMPS 指令<br>
    B. 对两个无符号数进行比较采用 CMPS 指令，对两个有符号数比较用 CMP 指令<br>
-   C. [对无符号数条件转移采用 JAE/JNB 指令，对有符号数条件转移用 JGE/JNL 指令]()<br>
+   [C. 对无符号数条件转移采用 JAE/JNB 指令，对有符号数条件转移用 JGE/JNL 指令]()<br>
    D. 对两个无符号数进行比较采用 CMP 指令，对两个有符号数比较用 CMPS 指令
 
 13.在下列指令的表示中，不正确的是（）
 
-   A. MOV AL,[BX+SI]&ensp;&ensp;&ensp;&ensp;B. JMP SHORT DONI&ensp;&ensp;&ensp;&ensp;C. [DEC [BX]]()&ensp;&ensp;&ensp;&ensp;D. MUL CL
+   A. MOV AL,[BX+SI]&ensp;&ensp;&ensp;&ensp;B. JMP SHORT DONI&ensp;&ensp;&ensp;&ensp;[C. DEC [BX]]()&ensp;&ensp;&ensp;&ensp;D. MUL CL
    
 14.条件转移指令 JNE 的测试条件为（）
 
-   A. [ZF=0]()&ensp;&ensp;&ensp;&ensp;B. CF=0&ensp;&ensp;&ensp;&ensp;C. ZF=1&ensp;&ensp;&ensp;&ensp;D. CF=1
+   [A. ZF=0]()&ensp;&ensp;&ensp;&ensp;B. CF=0&ensp;&ensp;&ensp;&ensp;C. ZF=1&ensp;&ensp;&ensp;&ensp;D. CF=1
    
 15.8086CPU 在基址加变址的寻址方式中，变址寄存器可以为（）
 
-   A. BX 或 CX&ensp;&ensp;&ensp;&ensp;B. CX 或 SI&ensp;&ensp;&ensp;&ensp;C. DX 或 SI&ensp;&ensp;&ensp;&ensp;D. [SI 或 DI]()
+   A. BX 或 CX&ensp;&ensp;&ensp;&ensp;B. CX 或 SI&ensp;&ensp;&ensp;&ensp;C. DX 或 SI&ensp;&ensp;&ensp;&ensp;[D. SI 或 DI]()
    
    
    
