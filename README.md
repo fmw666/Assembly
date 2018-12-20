@@ -951,7 +951,7 @@ END START
    ```
    也可用（）指令完成同样的功能。
    
-   [A. REP MOVSB]&ensp;&ensp;&ensp;&ensp;B. REP LODSB&ensp;&ensp;&ensp;&ensp;C. REP STOSB&ensp;&ensp;&ensp;&ensp;D. REPE SCASB
+   [A. REP MOVSB]()&ensp;&ensp;&ensp;&ensp;B. REP LODSB&ensp;&ensp;&ensp;&ensp;C. REP STOSB&ensp;&ensp;&ensp;&ensp;D. REPE SCASB
    
 1. 下面指令序列执行后完成的运算，正确的算术表达式应是（）
    ```asm
@@ -986,3 +986,5 @@ END START
 1. 将 DX 的内容除以2，正确的指令是（）
  
    A. DIV 2&ensp;&ensp;&ensp;&ensp;B. DIV DX,2&ensp;&ensp;&ensp;&ensp;[C. SAR DX,1]()&ensp;&ensp;&ensp;&ensp;D. SHL DX,1
+   
+[◀返回目录](#目录)
