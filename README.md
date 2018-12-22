@@ -817,37 +817,48 @@ END START
 
 ***将元素存入串***
 ```asm
-DATAS SEGMENT
-    ;此处输入数据段代码 
-    STR1 DB 3 dup(?),'$'   ;给定未知内容STR1空间
-DATAS ENDS
+DATAS SEGMENT                          ;定义一个DATAS段
+    STR1 DB 6 DUP(?),'$'               ;预定义6个Byte大小字符串变量STR1
+DATAS ENDS                             ;DATAS段结束
 
-STACKS SEGMENT
-    ;此处输入堆栈段代码
-STACKS ENDS
+CODES SEGMENT                          ;定义一个CODES段
+    ASSUME CS:CODES,ES:DATAS           ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                 ;程序开始标号处
+    MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
+    MOV ES,AX                          ;将立即数送到段寄存器ES中
+    
+    LEA DI,STR1                        ;调用字符串STR1开始有效地址（偏移地址），存放在目的变址寄存器DI中
+    
+    MOV AL,'f'                         ;将'f'的ASCII码送到AL中，同理后面几句。
+    STOSB                              ;串操作，单字符输出指令，同理后面几句。具体看下面解答部分↓
+    MOV AL,'m'                         ;见第13段
+    STOSB                              ;见第14段
+    MOV AL,'w'                         ;见第13段
+    STOSB                              ;见第14段
+    
+    MOV AL,'6'                         ;将'6'的ASCII码送到AL中
+    MOV CX,3                           ;设定循环次数3次
+    CLD                                ;clear direction，使变址寄存器DI的地址指针自动增加
+    REP STOSB                          ;当CX不等于0时，重复执行第20段操作
+    
+    LEA DX,STR1                        ;调用字符串STR1开始地址
+    MOV AX,ES                          ;将段寄存器ES的值放入AX中
+    MOV DS,AX                          ;将AX的值放入段寄存器DS中（AX作为中转）,DS作为DX的偏移地址
+    MOV AH,09H                         ;调用DOS系统9号功能：显示字符串
+    INT 21H                            ;调用DOS功能中断
+    
+    MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
+    INT 21H                            ;调用DOS功能中断        
+CODES ENDS                             ;CODES段结束
+    END START                          ;汇编程序运行结束
 
-CODES SEGMENT
-    ASSUME CS:CODES,ES:DATAS
-START:
-    MOV AX,DATAS
-    MOV ES,AX
-    ;此处输入代码段代码
+;-----------------------------------------------------------------------------
+;1. 如何理解第十四段中“LODSB”这句指令的意思？   
     
-    LEA DI,STR1
-    MOV AL,'f'    ;将f的ACSII码送到AL
-    MOV CX,3      ;与串的大小一致
-    CLD           ;使变址寄存器SI或DI的地址指针自动增加
-    REP STOSB     ;存放入字节当中
-    LEA DX,STR1   ;将STR1放到DX中
-    MOV AX,ES
-    MOV DS,AX     
-    MOV AH,9      ;输出
-    INT 21H       
-    
-    MOV AH,4CH     
-    INT 21H        
-CODES ENDS
-END START
+;答：该指令为单字符输出指令，调用该指令后，可以将累加器AL中的值传递到
+;    当前ES段的DI地址处，并且根据DF的值来影响DI的值，如果DF为0，则调用
+;    该指令后，DI自增1，如果DF为1,DI自减1.相当于：MOV ES:[DI],AL INC DI 
+;    或者 MOV ES:[DI],AL DEC DI
 ```
 
 [◀返回目录](#目录)
