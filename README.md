@@ -735,42 +735,43 @@ END START
 
 ***串比较***
 ```asm
-DATAS1 SEGMENT
-    ;此处输入数据段代码 
-    str1 DB 'fanmaowei'    ;定义字符串1
-DATAS1 ENDS
+DATAS1 SEGMENT                          ;定义一个DATAS1段
+    STR1 DB 'Hello!'                    ;定义一个STR1字符串
+DATAS1 ENDS                             ;DATAS1段结束
 
-DATAS2 SEGMENT 
-	str2 DB 'fammaowei'     ;定义字符串2
-DATAS2 ENDS
+DATAS2 SEGMENT                          ;定义一个DATAS2段   
+    STR2 DB 'Helle.'                    ;定义一个STR2字符串 
+DATAS2 ENDS                             ;DATAS2段结束        
 
-STACKS SEGMENT
-    ;此处输入堆栈段代码
-STACKS ENDS
+CODES SEGMENT                           ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS1,ES:DATAS2 ;关联代码段寄存器和数据段寄存器
+START:                                  ;程序开始标号处
+    MOV AX,DATAS1                       ;先将段DATAS1中立即数存到通用寄存器AX中作为中转
+    MOV DS,AX                           ;将立即数送到段寄存器DS中
+    MOV AX,DATAS2                       ;先将段DATAS2中立即数存到通
+    MOV ES,AX                           ;将立即数送到段寄存器ES中   
+    
+    LEA SI,STR1                         ;调用字符串STR1开始有效地址（偏移地址），存放在源变址寄存器SI中
+    LEA DI,STR2                         ;调用字符串STR2开始有效地址（偏移地址），存放在目的变址寄存器DI中
+    MOV CX,6                            ;将字符串的存储单元6存放入保存计数值的CX寄存器中  
+    CLD                                 ;clear direction，使变址寄存器SI和DI的地址指针自动增加
+    REPE CMPSB                          ;串操作，字符串比较指令，具体看下面解答部分↓ 
+    
+    MOV DL,ES:[DI-1]                    ;将ES寄存器中STR2不相等的位置的下一位置的上一位置字符输出
+    MOV AH,02H                          ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                             ;调用DOS功能中断 
+    
+    MOV AH,4CH                          ;调用DOS系统4C号功能：结束程序
+    INT 21H                             ;调用DOS功能中断
+CODES ENDS                              ;CODES段结束
+    END START                           ;汇编程序运行结束
 
-CODES SEGMENT
-    ASSUME CS:CODES,DS:DATAS1,ES:DATAS2
-START:
-    MOV AX,DATAS1    
-    MOV DS,AX
-    MOV AX,DATAS2
-    MOV ES,AX
-    ;此处输入代码段代码
+;-----------------------------------------------------------------------------
+;1. 如何理解第21段中“REPE CMPSB”这句指令的意思？   
     
-    LEA SI,str1    ;把STR1的有效地址传送到SI中
-    LEA DI,str2    ;把STR1的有效地址传送到SI中
-    MOV CX,9       ;计数
-    CLD            ;使变址寄存器SI或DI的地址指针自动增加
-    REPE CMPSB     ;串比较
-    
-    MOV DL,ES:[DI]     ;相等则停止
-    MOV AH,2      
-    INT 21H            ;输出
-    
-    MOV AH,4CH
-    INT 21H        
-CODES ENDS
-    END START
+;答：REPE是一个串操作前缀，它重复串操作指令，每重复一次ECX的值就减一， 
+;    一直到CX为0或ZF为0时停止。CMPSB是字符串比较指令，把SI指向的数据
+;    与DI指向的数一个一个的进行比较。当相同时继续比较，不同时不比较。 
 ```
 
 ***从串中取元素***
