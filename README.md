@@ -700,37 +700,39 @@ CODES ENDS                             ;CODES段结束
 
 ***串扫描***
 ```asm
-DATAS SEGMENT
-    ;此处输入数据段代码 
-    STR1 DB 'fmw2017110110'       ;定义字符串
-DATAS ENDS
+DATAS SEGMENT                          ;定义一个DATAS段
+    STR1 DB 'fmw2017110110'            ;定义字符串，由于DOS系统功能只能输出末位带$的字符串，所以此串不用于输出显示  
+DATAS ENDS                             ;DATAS段结束
 
+CODES SEGMENT                          ;定义一个CODES段
+    ASSUME CS:CODES,ES:DATAS           ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                 ;程序开始标号处
+    MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
+    MOV ES,AX                          ;将立即数送到段寄存器ES中码段代码
+    
+    LEA DI,STR1                        ;把STR1的有效地址传送到DI中
+    MOV AL,'m'                         ;将'm'的ASCII码送到AL中
+    MOV CX,20                          ;将STR1的存储单元20存放入保存计数值的CX寄存器中
+    CLD                                ;clear direction flag
+    REPNE SCASB                        ;串扫描指令，具体看下面解答部分↓
+    
+    MOV DL,ES:[DI]                     
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+    
+    MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
+    INT 21H                            ;调用DOS功能中断        
+CODES ENDS                             ;CODES段结束
+    END START                          ;汇编程序运行结束
 
-STACKS SEGMENT
-    ;此处输入堆栈段代码
-STACKS ENDS
-
-CODES SEGMENT
-    ASSUME CS:CODES,ES:DATAS
-START:
-    MOV AX,DATAS       
-    MOV ES,AX
-    ;此处输入代码段代码
+;-----------------------------------------------------------------------------
+;1. 如何理解第15段中“REPNE SCASB”这句指令的意思？   
     
-    LEA DI,STR1     ;把STR1的有效地址传送到DI中
-    MOV AL,'m'      ;将m的ACSII码送到AL
-    MOV CX,20       ;计数
-    CLD             ;使变址寄存器SI或DI的地址指针自动增加
-    REPNE SCASB     ;串扫描
-    
-    MOV DL,ES:[DI]   ;若相等就停止比较
-    MOV AH,2		 ;输出
-    INT 21H     
-    
-    MOV AH,4CH
-    INT 21H     
-CODES ENDS
-END START
+;答：REPNE是一个串操作前缀，它重复串操作指令，每重复一次ECX的值就减一， 
+;    一直到CX不为0或ZF为0时停止。SCASB是字符串操作指令，SCASB指令常与循
+;    环指令REPZ/REPNZ合用。例如，REPNZ SCASB 语句表示当寄存器ECX>0 且标
+;    志寄存器ZF=0，则再执行一次SCASB指令。用于比较寄存器AL的值不相等则重
+;    复查找的字。 
 ```
 
 ***串比较***
