@@ -22,7 +22,8 @@
   1. [大小写转换](#shiyan7)
 
 ***三、例题讲解***
-  1. [单项选择题](#xuanze1)
+  1. [单项选择题](#ti1)
+  1. [程序格式专题](#ti2)
 
 <a name="jichu1"> </a>
 ## 汇编语言简介
@@ -345,6 +346,7 @@ CODES ENDS                                          CODES ENDS
 
 <a name="jichu6"> </a>
 ## 子程序结构
+
 
 [◀返回目录](#目录)
 
@@ -855,7 +857,7 @@ END START
 
 [◀返回目录](#目录)
 
-<a name="xuanze1"> </a>
+<a name="ti1"> </a>
 ## 单项选择题
 1. CPU发出的访问存储器的地址是（）
 
@@ -987,4 +989,27 @@ END START
  
    A. DIV 2&ensp;&ensp;&ensp;&ensp;B. DIV DX,2&ensp;&ensp;&ensp;&ensp;[C. SAR DX,1]()&ensp;&ensp;&ensp;&ensp;D. SHL DX,1
    
+[◀返回目录](#目录)
+
+<a name="ti2"> </a>
+## 程序格式专题
+1. 指出下列指令的错误：
+   ```markdown
+   (1) MOV AH,BX                    ;寄存器类型不匹配
+   (2) MOV [BX],[SI]                ;不能都是存储器操作数
+   (3) MOV AX,[SI][DI]              ;[SI]和[DI]不能一起使用
+   (4) MOV MYDAT[BX][SI],ES:AX      ;AX寄存器不能使用段超越
+   (5) MOV BYTE PTR[BX],1000        ;1000超过了一个字节的范围
+   (6) MOV BX,OFFSET MYDAT[SI]      ;MYDAT[SI]已经是偏移地址,不能再使用OFFSET
+   (7) MOV CS,AX                    ;CS不能用作目的寄存器
+   (8) MOV ECX,AX                   ;两个操作数的数据类型不同
+   ```  
+1. 下面哪些指令是非法的？（假设OP1，OP2是以及用DB定义的变量）
+  ```markdown
+  (1) CMP 15,BX                     ;错，立即数不能作为目的操作数
+  (2) CMP OP1,25 
+  (3) CMP OP1,OP2                   ;错，不能都是存储器操作数
+  (4) CMP AX,OP1                    ;错，类型不匹配，应为CMP AX,WORD PTR OP1
+  ```
+
 [◀返回目录](#目录)
