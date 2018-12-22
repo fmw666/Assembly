@@ -866,7 +866,7 @@ END START
 ## 大小写转换
 ```asm
 DATAS SEGMENT                          ;定义一个DATAS段      
-    STR1 DB 'FanMaoWei',13,10,'$'  ;定义字符串STR1，"13,10,'$'"仅方便输出显示
+    STR1 DB 'FanMaoWei',13,10,'$'      ;定义字符串STR1，"13,10,'$'"仅方便输出显示
 DATAS ENDS                             ;DATAS段结束
 
 CODES SEGMENT                          ;定义一个CODES段
