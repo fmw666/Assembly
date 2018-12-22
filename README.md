@@ -854,6 +854,69 @@ END START
 
 <a name="shiyan5"> </a>
 ## 数组求和
+```asm
+DATAS SEGMENT                          ;定义一个DATAS段
+    ARRAY1 DB 1,2,3,4,5,6,7,8,9,1      ;定义数组ARRAY1
+    ARRAY2 DB 8,7,6,5,4,3,2,1,0,8      ;定义数组ARRAY1
+    SUM DW 10 DUP(?)                   ;定义数组SUM用来保存数组和的结果
+DATAS ENDS                             ;DATAS段结束
+
+CODES SEGMENT                          ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS           ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                 ;程序开始标号处
+    MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
+    MOV DS,AX                          ;将立即数送到段寄存器DS中
+
+    MOV CX,10                          ;将数组的存储单元10存放入保存计数值的CX寄存器中  
+    MOV SI,0                           ;设定16位通用寄存器SI值为0，用于作为数组索引值
+	
+NEXT:                                  ;NEXT循环开始标号
+    ;输出ARAAY1
+    MOV BX,OFFSET ARRAY1               ;将ARRAY1的偏移地址（起始地址）放入BX寄存器中
+    MOV DL,[BX+SI]                     ;间接寻址方式，[BX+SI]操作数是以BX中存放的数+SI为地址的单元中的数
+    ADD DL,'0'                         ;把ARAAY1[BX+SI]中的数字变成字符输出
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+    ;输出'+'
+    MOV DL,'+'                         ;将'+'放入DL中用于输出
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+    ;输出ARAAY2
+    MOV BX,OFFSET ARRAY2               ;将ARRAY2的偏移地址（起始地址）放入BX寄存器中                     
+    MOV DL,[BX+SI]                     ;间接寻址方式，[BX+SI]操作数是以BX中存放的数+SI为地址的单元中的数 
+    ADD DL,'0'                         ;把ARAAY2[BX+SI]中的数字变成字符输出                                       
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符                              
+    INT 21H                            ;调用DOS功能中断                                                  
+    ;输出'='                                                                                                    
+    MOV DL,'='                         ;将'='放入DL中用于输出              
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断                    
+    ;输出加和
+    MOV BX,OFFSET ARRAY1               ;将ARRAY1的偏移地址（起始地址）放入BX寄存器中
+    MOV DL,[BX+SI]                     ;间接寻址方式，[BX+SI]操作数是以BX中存放的数+SI为地址的单元中的数 
+    MOV BX,OFFSET ARRAY2               ;将ARRAY2的偏移地址（起始地址）放入BX寄存器中
+    ADD DL,[BX+SI]                     ;将ARAAY2的值和ARAAY1的值相加，结果保存在DL中
+;后面直接把结果输出，这里就不将结果另外保存在SUM数组中了，如果有需要则执行后面两句指令即可。
+    ;MOV BX,OFFSET SUM
+    ;MOV [SUM+SI],BX
+    ADD DL,'0'                         ;把数字变成字符输出，如果要将字符变成数字保存在数组中，则执行'SUB DL,30H'
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断  
+	
+    INC SI                             ;SI加1，索引值加1
+	
+    ;输出回车
+    MOV DL,10                          ;输出回车换行，回车键ACSII值为10                  
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+	
+LOOP NEXT                              ;当CX不等于0时，跳入上面进行循环。CX等于0时，不进入循环，程序往下执行
+
+    MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
+    INT 21H                            ;调用DOS功能中断
+CODES ENDS                             ;CODES段结束
+    END START                          ;汇编程序运行结束
+```
 
 [◀返回目录](#目录)
 
