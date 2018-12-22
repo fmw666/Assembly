@@ -775,44 +775,53 @@ CODES ENDS
 
 ***从串中取元素***
 ```asm
-DATAS SEGMENT
-    ;此处输入数据段代码 
-    STR1 DB 'fmw2017110110' ;定义字符串,后面只取前三位'fmw'
-DATAS ENDS
+DATAS SEGMENT                          ;定义一个DATAS段                       
+    STR1 DB 'fanmaowei'                ;定义一串源字符串STR1
+DATAS ENDS                             ;DATAS段结束
 
+CODES SEGMENT                          ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS           ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                 ;程序开始标号处
+    MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
+    MOV DS,AX                          ;将立即数送到段寄存器DS中
+    
+    LEA SI,STR1                        ;调用字符串STR1开始有效地址（偏移地址），存放在源变址寄存器SI中
+    CLD                                ;clear direction，使变址寄存器SI的地址指针自动增加
+    
+    LODSB                              ;串操作，块读出指令，具体看下面解答部分↓                   
+    MOV DL,AL                          ;将STR1串中读出的数从AL放到DL中用于输出
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+         
+    MOV CX,2                           ;循环执行三次。为什么是执行三次，具体看下面解答部分↓       
+PRINT:                                 ;PRINT循环开始标号
+    LODSB                              ;串操作，块读出指令 
+    MOV DL,AL                          ;将STR1串中读出的数从AL放到DL中用于输出
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+        
+LOOP PRINT                             ;当CX不等于0时，跳入上面进行循环。CX等于0时，不进入循环，程序往下执行
+    
+    MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
+    INT 21H                            ;调用DOS功能中断        
+CODES ENDS                             ;CODES段结束
+    END START                          ;汇编程序运行结束
 
-STACKS SEGMENT
-    ;此处输入堆栈段代码
-STACKS ENDS
+;-----------------------------------------------------------------------------
+;1. 如何理解第十四段中“LODSB”这句指令的意思？   
+    
+;答：汇编语言中，串操作指令LODSB/LODSW是块读出指令，其具体操作是把SI指向的
+;    存储单元读入累加器,其中LODSB是读入AL,LODSW是读入AX中,然后SI自动增加或
+;    减小1或2位。当方向标志位DF=0时，则SI自动增加；DF=1时，SI自动减小。
+;-----------------------------------------------------------------------------    
+;2. 第十九段中，为什么CX寄存器里放入2是使循环执行三次？
 
-CODES SEGMENT
-    ASSUME CS:CODES,DS:DATAS
-START:
-    MOV AX,DATAS
-    MOV DS,AX
-    ;此处输入代码段代码
-    
-    LEA SI,STR1     ;把STR1的有效地址传送到SI中
-    CLD             ;使变址寄存器SI或DI的地址指针自动增加
-    LODSB           ;从串取
-    MOV DL,AL
-    MOV AH,2        ;输出
-    INT 21H
-    
-    LODSB           ;从串取
-    MOV DL,AL
-    MOV AH,2        ;输出
-    INT 21H
-    
-    LODSB           ;从串取
-    MOV DL,AL
-    MOV AH,2        ;输出
-    INT 21H
-    
-    MOV AH,4CH
-    INT 21H        
-CODES ENDS
-END START
+;答：CX=2时，由于PRINt程序段是“MOV CX,2”执行后下面，所以会先执行一次，
+;    然后将AL中的数'f'放到DL中用于输出，程序运行到LOOP处，判断CX=2>0，所
+;    以程序跳到PRINT处开始执行，此时动用了LOOP指令，所以CX要自动-1（=1）
+;    执行LODSB指令，然后将读出的'a'输出。执行到LOOP指令处，CX=1>0，所以
+;    继续跳到PRINT处开始执行，此时CX自动-1（=0）。PRINT里继续输出'n',执行
+;    到LOOP指令处，由于CX=0，不再进行循环，所以最后循环一共执行了3次。
 ```
 
 ***将元素存入串***
