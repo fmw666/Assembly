@@ -864,6 +864,40 @@ END START
 
 <a name="shiyan7"> </a>
 ## 大小写转换
+```asm
+DATAS SEGMENT                          ;定义一个DATAS段      
+    STR1 DB 'FanMaoWei',13,10,'$'  ;定义字符串STR1，"13,10,'$'"仅方便输出显示
+DATAS ENDS                             ;DATAS段结束
+
+CODES SEGMENT                          ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS           ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                 ;程序开始标号处
+    MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
+    MOV DS,AX                          ;将立即数送到段寄存器DS中
+    
+    LEA DX,STR1                        ;调用字符串STR1开始有效地址（偏移地址），存放在DX中
+    MOV AH,09H                         ;调用DOS系统9号功能：显示字符串
+    INT 21H                            ;调用DOS功能中断 
+    
+    MOV BX,0                           ;设置(BX)=0，DS:BX指向'FanMaoWei'的第一个字母
+    MOV CX,9                           ;设置循环次数5，因为'FanMaoWei'有9个字母
+S:                                     ;S循环开始标号
+    MOV AL,[BX]                        ;将ASCII码从DS:BX所指向的单元中取出放在AL中
+    AND AL,11011111B                   ;将AL中的字符变为大写，AND是逻辑运算符。（变小写：OR AL,00100000B）
+    MOV [BX],AL                        ;将AL中已经变为大写的字符还给[BX]地址，即DS第BX个位置，BX初值为0
+    INC BX                             ;BX+1，将DS中字符串位置向后移一位
+    
+    LOOP S                             ;当CX不等于0时，跳入上面进行循环。CX等于0时，不进入循环，程序往下执行 
+    
+    LEA DX,STR1                        ;调用字符串STR1开始有效地址（偏移地址），存放在DX中
+    MOV AH,09H                         ;调用DOS系统9号功能：显示字符串                    
+    INT 21H                            ;调用DOS功能中断                                   
+    
+    MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
+    INT 21H                            ;调用DOS功能中断        
+CODES ENDS                             ;CODES段结束
+    END START                          ;汇编程序运行结束
+```
 
 [◀返回目录](#目录)
 
