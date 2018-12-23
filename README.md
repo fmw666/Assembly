@@ -979,18 +979,8 @@ START:                                 ;程序开始标号处
     MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
     MOV DS,AX                          ;将立即数送到段寄存器DS中
     
-    MOV AL,NUM                         ;将NUM放入AL寄存器中用于计算
-    MOV CL,NUM                         ;将NUM放入CL寄存器中用于计数
-    DEC CL                             ;CL-1
-    DEC CL                             ;CL-1，阶乘次数为n-2
+    CALL MAIN                          ;转移指令，同RET指令，修改IP地址。
     
-FACT:                                  ;FACT循环开始标号
-    DEC NUM                            ;NUM-1
-    MUL NUM                            ;将上面NUM减一后=2，乘AL中的NUM=3，结果=6，同时也存入AL寄存器中
-	
-LOOP FACT                              ;当CX不等于0时，跳入上面进行循环。CX等于0时，不进入循环，程序往下执行 
-	
-    MOV RES,AL                         ;将AL中的阶乘结果放入RES中
     MOV DL,RES                         ;将RES中的值赋给DL用于输出
     ADD DL,'0'                         ;把数字变成字符
     MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
@@ -998,6 +988,20 @@ LOOP FACT                              ;当CX不等于0时，跳入上面进行�
       
     MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
     INT 21H                            ;调用DOS功能中断
+    
+MAIN PROC                              ;定义MAIN子程序段
+    MOV AL,NUM                         ;将NUM放入AL寄存器中用于计算
+    MOV CL,NUM                         ;将NUM放入CL寄存器中用于计数
+    DEC CL                             ;CL-1
+    DEC CL                             ;CL-1，阶乘次数为n-2
+FACT:                                  ;FACT循环开始标号
+    DEC NUM                            ;NUM-1
+    MUL NUM                            ;将上面NUM减一后=2，乘AL中的NUM=3，结果=6，同时也存入AL寄存器中	
+LOOP FACT                              ;当CX不等于0时，跳入上面进行循环。CX等于0时，不进入循环，程序往下执行 
+	
+    MOV RES,AL                         ;将AL中的阶乘结果放入RES中
+    RET                                ;转移指令，同CALL指令，修改IP地址。
+MAIN ENDP                              ;MAIN子程序结束
 CODES ENDS                             ;CODES段结束
     END START                          ;汇编程序运行结束
 ```
