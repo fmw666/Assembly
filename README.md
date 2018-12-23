@@ -18,8 +18,9 @@
   1. [四则运算](#shiyan3)
   1. [串操作](#shiyan4)
   1. [数组求和](#shiyan5)
-  1. [n的阶乘](#shiyan6)
-  1. [大小写转换](#shiyan7)
+  1. [冒泡排序](#shiyan6)
+  1. [n的阶乘](#shiyan7)
+  1. [大小写转换](#shiyan8)
 
 ***三、例题讲解***
   1. [单项选择题](#ti1)
@@ -908,6 +909,72 @@ CODES ENDS                             ;CODES段结束
 
 [◀返回目录](#目录)
 
+<a name="shiyan6"> </a>
+## 冒泡排序
+```asm
+DATAS SEGMENT                          ;定义一个DATAS段     
+    BUF DB 3,4,5,0,6,2,1               ;定义一个长度为7的BUF数组
+DATAS ENDS                             ;DATAS段结束
+
+CODES SEGMENT                          ;定义一个CODES段
+    ASSUME CS:CODES,DS:DATAS           ;关联代码段寄存器CODES和数据段寄存器CS、DATAS和DS
+START:                                 ;程序开始标号处
+    MOV AX,DATAS                       ;先将段DATAS中立即数存到通用寄存器AX中作为中转    
+    MOV DS,AX                          ;将立即数送到段寄存器DS中
+    
+    ;输出排序前数组的值，与后面输出实现方法不同
+    MOV BX,OFFSET BUF                  ;将BUF偏移地址送到BX中
+    MOV CX,7                           ;将数组BUF的长度7赋给CX计数寄存器，用于控制循环次数
+ S1:MOV DL,BUF[BX]                     ;将BX的值，即BUF初始地址上是值（BUFF首地址元素）送到DL中
+    ADD DL,'0'                         ;把数字变成字符
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+    INC BX                             ;BX+1，使BUF数组遍历输出
+    LOOP S1                            ;当CX>0时，循环S1操作，执行一次LOOP，CX-1
+    ;输出回车换行
+    MOV DL,10                          ;输出回车换行，回车键ACSII值为10
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+    
+    CALL BUBBLE                        ;执行冒泡排序子程序
+    ;输出排序后数组的值
+    MOV BX,0                           ;同OFFSET BUF，将BX位置为0，用于BUF数组下标遍历
+    MOV CX,7                           ;将数组BUF的长度7赋给CX计数寄存器，用于控制循环次数
+ S2:MOV DL,[BX]                        ;将BX地址上的值，即BUF[BX]的值送给DL
+    ADD DL,'0'                         ;把数字变成字符
+    MOV AH,02H                         ;调用DOS系统的02号功能：显示一个字符
+    INT 21H                            ;调用DOS功能中断
+    INC BX                             ;BX+1，使BUF数组遍历输出
+    LOOP S2                            ;当CX>0时，循环S2操作，执行一次LOOP，CX-1
+    
+    MOV AH,4CH                         ;调用DOS系统4C号功能：结束程序
+    INT 21H                            ;调用DOS功能中断
+    
+BUBBLE PROC                            ;定义BUBBLE子程序段，默认NEAR  
+    MOV CX,7                           ;将数组BUF的长度7赋给CX计数寄存器，用于控制循环次数
+    DEC CX                             ;CX-1，冒泡排序中，循环次数为数组长度-1
+ L1:MOV DI,CX                          ;将CX的值存入DI寄存器中
+    MOV BX,0                           ;将BX位置为0，用于BUF数组下标遍历
+ L2:MOV AL,BUF[BX]                     ;将BUF[BX]的值存在AL中
+    CMP AL,BUF[BX+1]                   ;比较BUF[BX]和BUF[BX+1]的大小
+    JLE L3                             ;如果BUF[BX]<BUF[BX+1] 则跳转，不交换值。否则执行下面交换值过程
+    XCHG AL,BUF[BX+1]                  ;将BUF[BX+1]的值赋为BUF[BX]的值，AL的值赋为BUF[BX+1]
+    MOV BUF[BX],AL                     ;将AL中BUF[BX+1]的值送到BUF[BX]中，完成值交换。XCHG指令不能同时都为内存操作数
+    
+ L3:ADD BX,1                           ;BX+1，使BUF数组遍历输出
+LOOP L2                                ;当CX>0时，循环L2操作，执行一次LOOP，CX-1
+    MOV CX,DI                          ;将之前存入DI中CX的值还给CX寄存器
+LOOP L1                                ;当CX>0时，循环L1操作，执行一次LOOP，CX-1
+    
+    RET                                ;子程序调用结束，IP指针回到主程序段
+BUBBLE ENDP                            ;BUBBLE子程序结束
+    
+CODES ENDS                             ;CODES段结束
+    END START                          ;汇编程序运行结束
+```
+
+[◀返回目录](#目录)
+
 <a name="shiyan5"> </a>
 ## 数组求和
 ```asm
@@ -976,7 +1043,7 @@ CODES ENDS                             ;CODES段结束
 
 [◀返回目录](#目录)
 
-<a name="shiyan6"> </a>
+<a name="shiyan7"> </a>
 ## n的阶乘
 ```asm
 DATAS SEGMENT                          ;定义一个DATAS段      
@@ -1019,7 +1086,7 @@ CODES ENDS                             ;CODES段结束
 
 [◀返回目录](#目录)
 
-<a name="shiyan7"> </a>
+<a name="shiyan8"> </a>
 ## 大小写转换
 ```asm
 DATAS SEGMENT                          ;定义一个DATAS段      
