@@ -1244,19 +1244,19 @@ CODES ENDS                             ;CODES段结束
 1. PSW寄存器中共有___位条件状态位，有___位控制状态位（）
 
    [A. 6、3]()&ensp;&ensp;&ensp;&ensp;B. 3、6&ensp;&ensp;&ensp;&ensp;C. 8、4&ensp;&ensp;&ensp;&ensp;D. 4、8
-   
+
 1．下列指令执行时出错的是（）
 
    [A. ADD BUF1,BUF2]()&ensp;&ensp;&ensp;&ensp;B. JMP DWORD PTR DAT [BX]&ensp;&ensp;&ensp;&ensp;C. MOV AX,[BX+DI] NUM&ensp;&ensp;&ensp;&ensp;D. TEST AL,08H
-   
+
 1. 串指令中的目的操作数地址是由（）提供。
 
    A. SS:[BP]&ensp;&ensp;&ensp;&ensp;B. DS:[SI]&ensp;&ensp;&ensp;&ensp;[C. ES:[DI]]()&ensp;&ensp;&ensp;&ensp;D. CS:[IP]
-   
+
 1. 将 DX 的内容除以2，正确的指令是（）
  
    A. DIV 2&ensp;&ensp;&ensp;&ensp;B. DIV DX,2&ensp;&ensp;&ensp;&ensp;[C. SAR DX,1]()&ensp;&ensp;&ensp;&ensp;D. SHL DX,1
-   
+
 [◀返回目录](#目录)
 
 <a name="ti2"> </a>
