@@ -1245,7 +1245,7 @@ CODES ENDS                             ;CODES段结束
 
    [A. 6、3]()&ensp;&ensp;&ensp;&ensp;B. 3、6&ensp;&ensp;&ensp;&ensp;C. 8、4&ensp;&ensp;&ensp;&ensp;D. 4、8
    
-1．下列指令执行时出错的是（）
+1. 下列指令执行时出错的是（）
 
    [A. ADD BUF1,BUF2]()&ensp;&ensp;&ensp;&ensp;B. JMP DWORD PTR DAT [BX]&ensp;&ensp;&ensp;&ensp;C. MOV AX,[BX+DI] NUM&ensp;&ensp;&ensp;&ensp;D. TEST AL,08H
    
