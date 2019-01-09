@@ -1188,7 +1188,7 @@ CODES ENDS                             ;CODES段结束
    
 1. 已知 BX=2000H，SI=1234H，则指令 MOV AX,[BX+SI+2] 的源操作数在（）中。
 
-   [A. 数据段中偏移量为3236H的字节中]br>
+   [A. 数据段中偏移量为3236H的字节中]()br>
    B. 附加段中偏移量为3234H的字节中<br>
    C. 数据段中偏移量为3234H的字节中<br>
    D. 附加段中偏移量为3236H的字节中
@@ -1198,7 +1198,7 @@ CODES ENDS                             ;CODES段结束
    MOV AX,0
    MOB BX,1
    MOV CX,100
-   A: ADD AXX,BX
+   A: ADD AX,BX
    INC BX 
    LOOP A
    HLT
