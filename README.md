@@ -1286,21 +1286,21 @@ CODES ENDS                             ;CODES段结束
 ## 程序格式专题
 1. 指出下列指令的错误：
    ```asm
-   (1) MOV AH,BX                    ;寄存器类型不匹配
-   (2) MOV [BX],[SI]                ;不能都是存储器操作数
-   (3) MOV AX,[SI][DI]              ;[SI]和[DI]不能一起使用
-   (4) MOV MYDAT[BX][SI],ES:AX      ;AX寄存器不能使用段超越
-   (5) MOV BYTE PTR[BX],1000        ;1000超过了一个字节的范围
-   (6) MOV BX,OFFSET MYDAT[SI]      ;MYDAT[SI]已经是偏移地址,不能再使用OFFSET
-   (7) MOV CS,AX                    ;CS不能用作目的寄存器
-   (8) MOV ECX,AX                   ;两个操作数的数据类型不同
+   (1) MOV AH,BX                          ;寄存器类型不匹配
+   (2) MOV [BX],[SI]                      ;不能都是存储器操作数
+   (3) MOV AX,[SI][DI]                    ;[SI]和[DI]不能一起使用
+   (4) MOV MYDAT[BX][SI],ES:AX            ;AX寄存器不能使用段超越
+   (5) MOV BYTE PTR[BX],1000              ;1000超过了一个字节的范围
+   (6) MOV BX,OFFSET MYDAT[SI]            ;MYDAT[SI]已经是偏移地址,不能再使用OFFSET
+   (7) MOV CS,AX                          ;CS不能用作目的寄存器
+   (8) MOV ECX,AX                         ;两个操作数的数据类型不同
    ```  
 1. 下面哪些指令是非法的？（假设OP1，OP2是以及用DB定义的变量）
    ```asm
-   (1) CMP 15,BX                     ;错，立即数不能作为目的操作数
+   (1) CMP 15,BX                          ;错，立即数不能作为目的操作数
    (2) CMP OP1,25 
-   (3) CMP OP1,OP2                   ;错，不能都是存储器操作数
-   (4) CMP AX,OP1                    ;错，类型不匹配，应为CMP AX,WORD PTR OP1
+   (3) CMP OP1,OP2                        ;错，不能都是存储器操作数
+   (4) CMP AX,OP1                         ;错，类型不匹配，应为CMP AX,WORD PTR OP1
    ```
 
 [◀返回目录](#目录)
