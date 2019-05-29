@@ -1285,7 +1285,7 @@ CODES ENDS                             ;CODES段结束
 <a name="ti3"> </a>
 ## 程序格式专题
 1. 指出下列指令的错误：
-   ```markdown
+   ```asm
    (1) MOV AH,BX                    ;寄存器类型不匹配
    (2) MOV [BX],[SI]                ;不能都是存储器操作数
    (3) MOV AX,[SI][DI]              ;[SI]和[DI]不能一起使用
@@ -1296,7 +1296,7 @@ CODES ENDS                             ;CODES段结束
    (8) MOV ECX,AX                   ;两个操作数的数据类型不同
    ```  
 1. 下面哪些指令是非法的？（假设OP1，OP2是以及用DB定义的变量）
-   ```markdown
+   ```asm
    (1) CMP 15,BX                     ;错，立即数不能作为目的操作数
    (2) CMP OP1,25 
    (3) CMP OP1,OP2                   ;错，不能都是存储器操作数
